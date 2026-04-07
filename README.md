@@ -17,20 +17,38 @@ openclaw plugins install github:evgeniyg-0hub/openclaw-anthropic-oauth
 
 ## Setup
 
-### 1. Get tokens from Claude Code
+### 1. Get fresh tokens from Claude Code
 
-**macOS** (from Keychain):
+Before extracting tokens, do a clean re-login to make sure they are fresh:
+
+**macOS:**
 ```bash
+# 1. Delete old credentials from Keychain
+security delete-generic-password -s "Claude Code-credentials"
+
+# 2. Re-login in Claude Code
+claude logout 2>/dev/null; claude
+
+# 3. Complete the OAuth login in the browser, then exit Claude Code
+
+# 4. Extract fresh tokens
 security find-generic-password -s "Claude Code-credentials" -w | \
   python3 -c "import json,sys; d=json.loads(sys.stdin.read())['claudeAiOauth']; print(f'Access: {d[\"accessToken\"]}\nRefresh: {d[\"refreshToken\"]}')"
 ```
 
-**Linux** (from credentials file):
+**Linux:**
 ```bash
+# 1. Delete old credentials
+rm -f ~/.claude/.credentials.json
+
+# 2. Re-login
+claude
+
+# 3. Complete OAuth login, then exit Claude Code
+
+# 4. Extract tokens
 python3 -c "import json; d=json.load(open('$HOME/.claude/.credentials.json'))['claudeAiOauth']; print(f'Access: {d[\"accessToken\"]}\nRefresh: {d[\"refreshToken\"]}')"
 ```
-
-You need a Claude Code login first (`claude` CLI must be authenticated).
 
 ### 2. Add tokens to OpenClaw
 
@@ -65,6 +83,24 @@ Then restart the gateway:
 ```bash
 openclaw gateway restart
 ```
+
+### 4. Re-login Claude Code after setup
+
+OpenClaw and Claude Code share the same OAuth tokens. After transferring tokens to OpenClaw, re-login Claude Code so each has its own independent token pair:
+
+**macOS:**
+```bash
+security delete-generic-password -s "Claude Code-credentials"
+claude  # will prompt for fresh login
+```
+
+**Linux:**
+```bash
+rm -f ~/.claude/.credentials.json
+claude  # will prompt for fresh login
+```
+
+This prevents token conflicts — each tool will refresh its own tokens independently.
 
 ## How it works
 
