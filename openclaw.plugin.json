@@ -1,0 +1,29 @@
+{
+  "id": "anthropic-oauth",
+  "name": "Anthropic OAuth Provider",
+  "description": "Use Claude Max subscription via OAuth access+refresh tokens with auto-refresh",
+  "providers": ["anthropic-oauth"],
+  "providerAuthEnvVars": {
+    "anthropic-oauth": ["ANTHROPIC_OAUTH_ACCESS_TOKEN", "ANTHROPIC_OAUTH_REFRESH_TOKEN"]
+  },
+  "providerAuthChoices": [
+    {
+      "provider": "anthropic-oauth",
+      "method": "oauth-tokens",
+      "choiceId": "oauth-tokens",
+      "choiceLabel": "Anthropic OAuth tokens (access + refresh)",
+      "choiceHint": "Paste access and refresh tokens from Claude Code credentials",
+      "groupId": "anthropic-oauth",
+      "groupLabel": "Anthropic OAuth",
+      "groupHint": "Claude Max subscription via OAuth tokens",
+      "cliFlag": "--anthropic-access-token",
+      "cliOption": "--anthropic-access-token <token>",
+      "cliDescription": "Anthropic OAuth access token"
+    }
+  ],
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "openclaw-anthropic-oauth",
+  "version": "1.0.0",
+  "description": "Anthropic OAuth provider for OpenClaw — use Claude Max subscription with auto-refreshing access/refresh tokens",
+  "type": "module",
+  "openclaw": {
+    "extensions": ["./index.js"]
+  },
+  "keywords": ["openclaw", "anthropic", "oauth", "claude", "provider"],
+  "license": "MIT"
+}
